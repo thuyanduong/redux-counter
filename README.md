@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Intro to Redux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What is Redux
+- Redux is an open-source JavaScript library for managing and centralizing application **state**
+- What other tools have we used to manage state?
 
-## Available Scripts
+## Why Redux
+- [State is not tightly coupled to components](https://res.cloudinary.com/practicaldev/image/fetch/s--pya5ldwL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://blog.codecentric.de/files/2017/12/Bildschirmfoto-2017-12-01-um-08.53.32.png)
+- [Similar to Context API](https://edupala.com/wp-content/uploads/2022/04/react-context-diagram.png)
+- [Redux Flow is action based](https://cdn-images-1.medium.com/max/1600/0*igA-RO7ila55cVWb.png)
 
-In the project directory, you can run:
+## Counter Example
+0. Let's define an **action** called "INCREMENT".
+1. The UI/component will trigger this **action** on click of the button.
+2. The **action** is sent to the **reducer** which will reduce a new **state**.
+3. The store will update the UI/component by mapping the state to props. 
 
-### `npm start`
+### Setup: Install `redux` and `react-redux`
+* `npm install redux react-redux`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Setup: Create the reducer with initial state
+```js
+const initialState = {
+  darkMode: true,
+  counter: 1
+}
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+const reducer = ( currentState = initialState, action ) => { 
+  return currentState;
+}
 
-### `npm test`
+export default reducer
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Setup: Create the Store
+```js
+import {createStore} from 'redux'
+import reducer from './reducer';
 
-### `npm run build`
+const store = createStore( reducer );
+export default store
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Setup: Provide the store to the App 
+```js
+import {Provider} from 'react-redux'
+import store from './redux/store'
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Finally, we can build out Redux Flow!
+1. Clicking the button will dispatch an **action** using `store.dispatch()`
+  - We pass in an action object.
 
-### `npm run eject`
+2. The **action** is sent to the **reducer** which is a giant if-else (or switch) block
+  - The reducer uses the currentState to return a new state depending on the `action.type`. 
+  - We might use the `action.payload` to reduce state.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. The store needs to update the component. We need to `connect` the component to Redux. 
+  - The syntax is confusing, but you can memorize the pattern for now.
+  - We need to define a `mapStateToProps` function that returns an object where the keys are `props` we are giving to the component and the `value` is from the state object.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
