@@ -21,8 +21,8 @@
 ### Setup: Create the reducer with initial state
 ```js
 const initialState = {
-  darkMode: true,
-  counter: 1
+  counter: 1,
+  darkMode: false
 }
 
 const reducer = ( currentState = initialState, action ) => { 
