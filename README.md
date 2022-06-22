@@ -1,4 +1,5 @@
-# Intro to Redux
+# Intro to Redux Seminar
+- How is seminar different from lecture?
 
 ## What is Redux
 - Redux is an open-source JavaScript library for managing and centralizing application **state**
@@ -25,7 +26,7 @@ const initialState = {
   darkMode: false
 }
 
-const reducer = ( currentState = initialState, action ) => { 
+function reducer ( currentState = initialState, action ) { 
   return currentState;
 }
 
@@ -67,4 +68,3 @@ root.render(
 3. The store needs to update the component. We need to `connect` the component to Redux. 
   - The syntax is confusing, but you can memorize the pattern for now.
   - We need to define a `mapStateToProps` function that returns an object where the keys are `props` we are giving to the component and the `value` is from the state object.
-
